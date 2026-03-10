@@ -1,25 +1,23 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
-  name: "Shindo Life Docs"
-  text: "ETEPHYM"
-  tagline: My great project tagline
+  name: "Shindo Life"
+  text: "Docs by ETEPHYM"
+  tagline: Гайды, тир листы и советы по игре
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Guide
+      link: /guide
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Tips & Tricks
+      link: /tips
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Менторы и расы
+    details: Сравнение менторов, пассивки, расы и рекомендации по комбинациям
+  - title: Элементы и блудлайны
+    details: Тир листы элементов, кенджутсу, саб способностей и модов
+  - title: Советы и трюки
+    details: Баги слотов, скип хилки, аир комбо и другие полезные механики
 ---
-

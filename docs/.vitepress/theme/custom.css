@@ -1,0 +1,21 @@
+:root {
+  --vp-c-bg: #1a1a1f;
+  --vp-c-bg-soft: #222228;
+  --vp-c-bg-mute: #2a2a32;
+  --vp-c-bg-alt: #1a1a1f;
+  --vp-sidebar-bg-color: #1a1a1f;
+  --vp-nav-bg-color: #1a1a1f;
+  --vp-c-divider: #2e2e38;
+  --vp-c-gutter: #111115;
+}
+
+.dark {
+  --vp-c-bg: #1a1a1f;
+  --vp-c-bg-soft: #222228;
+  --vp-c-bg-mute: #2a2a32;
+  --vp-c-bg-alt: #1a1a1f;
+  --vp-sidebar-bg-color: #1a1a1f;
+  --vp-nav-bg-color: #1a1a1f;
+  --vp-c-divider: #2e2e38;
+  --vp-c-gutter: #111115;
+}
