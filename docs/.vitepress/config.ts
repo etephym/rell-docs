@@ -7,14 +7,15 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Guide', link: '/guide' },
+      { text: 'Tips & Tricks', link: '/tips' }
     ],
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Shindo Life',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Guide', link: '/guide' },
+          { text: 'Tips & Tricks', link: '/tips' }
         ]
       }
     ],
