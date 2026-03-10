@@ -12,3 +12,15 @@ html {
   --vp-c-divider: #222222;
   --vp-c-gutter: #080808;
 }
+
+.vp-doc .custom-block.tip {
+  border-color: #5eead4;
+}
+
+.vp-doc .custom-block.warning {
+  border-color: #fbbf24;
+}
+
+.vp-doc .custom-block.danger {
+  border-color: #f87171;
+}

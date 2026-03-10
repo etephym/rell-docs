@@ -9,7 +9,17 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
+  head: [
+    ['link', { rel: 'icon', href: '/shindo/logo.jpg', type: 'image/jpeg' }]
+  ],
+
+  sitemap: {
+    hostname: 'https://etephym.github.io/shindo/'
+  },
+
   themeConfig: {
+    logo: '/logo.jpg',
+
     nav: [
       { text: 'Главная', link: '/' },
       { text: 'Guide', link: '/guide' },
