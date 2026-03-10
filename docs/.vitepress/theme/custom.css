@@ -1,8 +1,5 @@
-html {
-  background-color: #0d0d0d !important;
-}
-
-:root {
+/* Тёмная тема */
+.dark {
   --vp-c-bg: #0d0d0d;
   --vp-c-bg-soft: #141414;
   --vp-c-bg-mute: #1a1a1a;
@@ -13,14 +10,18 @@ html {
   --vp-c-gutter: #080808;
 }
 
-.vp-doc .custom-block.tip {
-  border-color: #5eead4;
+html.dark {
+  background-color: #0d0d0d !important;
 }
 
-.vp-doc .custom-block.warning {
-  border-color: #fbbf24;
+/* Светлая тема */
+:root {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-bg-mute: #eeeeee;
 }
 
-.vp-doc .custom-block.danger {
-  border-color: #f87171;
-}
+/* Контейнеры */
+.vp-doc .custom-block.tip { border-color: #5eead4; }
+.vp-doc .custom-block.warning { border-color: #fbbf24; }
+.vp-doc .custom-block.danger { border-color: #f87171; }
