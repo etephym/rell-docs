@@ -120,8 +120,8 @@ html.dark {
 .VPHero .name {
   background: linear-gradient(
     270deg,
-    #ff6b6b, #feca57, #48dbfb,
-    #ff9ff3, #54a0ff, #5f27cd, #ff6b6b
+    #ff6b6b, #54a0ff, #5f27cd,
+    #feca57, #54a0ff, #ff6b6b
   );
   background-size:         400% 400%;
   -webkit-background-clip: text;
