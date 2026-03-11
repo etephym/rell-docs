@@ -2,21 +2,21 @@
 layout: home
 
 title: Shindo Life Docs
-description: Guides, tier lists and mechanics for Shindo Life by ETEPHYM
+description: Гайды, тир-листы и механики Shindo Life от ETEPHYM
 
 hero:
   name: "Shindo Life"
   text: "Docs by ETEPHYM"
-  tagline: All guides, tier lists and mechanics in one place
+  tagline: Все гайды, тир-листы и механики в одном месте
   image:
     src: /logo.jpg
     alt: Shindo Life
   actions:
     - theme: brand
-      text: 📖 Read the Guide
+      text: 📖 Читать гайд
       link: /guide
     - theme: alt
-      text: 💡 Tips & Tricks
+      text: 💡 Советы и фишки
       link: /tips
     - theme: alt
       text: Discord
@@ -24,27 +24,27 @@ hero:
 
 features:
   - icon: ⚔️
-    title: Mentors & Races
-    details: Full breakdown of all mentors, passives and races. Tier lists and combo tips.
+    title: Менторы и расы
+    details: Полный разбор всех менторов, пассивок и рас. Тир-листы и советы по комбо.
     link: /guide#менторы
   - icon: 🧪
-    title: Elements & Kenjutsu
-    details: Tier lists for elements, kenjutsu, sub modes and sub abilities.
+    title: Элементы и Kenjutsu
+    details: Тир-листы элементов, kenjutsu, sub modes и sub abilities.
     link: /guide#elements
   - icon: 💊
-    title: Heals & Items
-    details: Best heals, weapons, throwables and companions for every situation.
+    title: Хилки и предметы
+    details: Лучшие хилки, оружия, throwables и companions для любой ситуации.
     link: /guide#хилки
   - icon: 💡
-    title: Tips & Tricks
-    details: Advanced tips, micro-mechanics and useful bugs to improve your gameplay.
+    title: Советы и фишки
+    details: Продвинутые советы, микромеханики и полезные баги для улучшения игры.
     link: /tips
   - icon: 📖
-    title: Terms
-    details: PB, BB, iFrame, Grab, Andodge — all terms explained clearly.
+    title: Термины
+    details: PB, BB, iFrame, Grab, Andodge — все термины объяснены понятно.
     link: /guide#термины
   - icon: 🐛
-    title: Slot Bug
-    details: How to increase your skill slot count using your phone.
+    title: Баг слотов
+    details: Как увеличить количество слотов скиллов через телефон.
     link: /guide#баг-слотов
 ---

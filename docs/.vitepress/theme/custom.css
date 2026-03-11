@@ -15,14 +15,14 @@
    Dark theme — background and surface colors
    ============================================================= */
 .dark {
-  --vp-c-bg:             #0d0d0d;   /* main page background       */
-  --vp-c-bg-soft:        #141414;   /* cards, callout blocks      */
-  --vp-c-bg-mute:        #1a1a1a;   /* subtle muted surfaces      */
-  --vp-c-bg-alt:         #0d0d0d;   /* alternate bg (same as main)*/
-  --vp-sidebar-bg-color: #0d0d0d;   /* sidebar background         */
-  --vp-nav-bg-color:     #0d0d0d;   /* navbar background          */
-  --vp-c-divider:        #222222;   /* divider / border lines     */
-  --vp-c-gutter:         #080808;   /* layout gutter color        */
+  --vp-c-bg:             #0d0d0d;   /* main page background        */
+  --vp-c-bg-soft:        #141414;   /* cards, callout blocks       */
+  --vp-c-bg-mute:        #1a1a1a;   /* subtle muted surfaces       */
+  --vp-c-bg-alt:         #0d0d0d;   /* alternate bg (same as main) */
+  --vp-sidebar-bg-color: #0d0d0d;   /* sidebar background          */
+  --vp-nav-bg-color:     #0d0d0d;   /* navbar background           */
+  --vp-c-divider:        #222222;   /* divider / border lines      */
+  --vp-c-gutter:         #080808;   /* layout gutter color         */
 }
 
 html.dark {
@@ -46,6 +46,40 @@ html.dark {
 .dark .VPSidebar {
   backdrop-filter: blur(8px);
   background:      rgba(13, 13, 13, 0.95) !important;
+}
+
+
+/* =============================================================
+   Navbar logo — animated rainbow glow effect
+   ============================================================= */
+.VPNavBarTitle .logo,
+.VPNavBarTitle img {
+  filter:     drop-shadow(0 0 6px rgba(255, 107, 107, 0.7))
+              drop-shadow(0 0 14px rgba(84, 160, 255, 0.5));
+  animation:  logo-glow 4s ease-in-out infinite;
+  transition: filter 0.3s ease;
+}
+
+.VPNavBarTitle .logo:hover,
+.VPNavBarTitle img:hover {
+  filter: drop-shadow(0 0 10px rgba(255, 107, 107, 1))
+          drop-shadow(0 0 22px rgba(84, 160, 255, 0.8))
+          drop-shadow(0 0 35px rgba(255, 159, 243, 0.5));
+}
+
+@keyframes logo-glow {
+  0%,  100% {
+    filter: drop-shadow(0 0 5px  rgba(255, 107, 107, 0.6))
+            drop-shadow(0 0 12px rgba(84,  160, 255, 0.4));
+  }
+  33% {
+    filter: drop-shadow(0 0 8px  rgba(84,  160, 255, 0.8))
+            drop-shadow(0 0 18px rgba(255, 159, 243, 0.5));
+  }
+  66% {
+    filter: drop-shadow(0 0 8px  rgba(95,  39,  205, 0.7))
+            drop-shadow(0 0 18px rgba(255, 202,  87, 0.5));
+  }
 }
 
 
