@@ -181,6 +181,11 @@ export default defineConfig({
         // --- Edit link ---
 
         // --- Prev / Next ---
+        editLink: {
+          pattern: 'https://github.com/etephym/shindo/edit/main/docs/:path',
+          text:    'Редактировать на GitHub',
+        },
+
         docFooter: {
           prev: '← Предыдущая',
           next: 'Следующая →',
@@ -328,6 +333,11 @@ export default defineConfig({
         // --- Edit link ---
 
         // --- Prev / Next ---
+        editLink: {
+          pattern: 'https://github.com/etephym/shindo/edit/main/docs/:path',
+          text:    'Edit this page on GitHub',
+        },
+
         docFooter: {
           prev: '← Previous',
           next: 'Next →',
