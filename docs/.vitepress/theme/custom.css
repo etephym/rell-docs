@@ -1,9 +1,9 @@
 /* =============================================================
-   Custom Styles for Shindo Life Docs
-   VitePress default theme overrides
+   Custom Styles — Shindo Life Docs
+   Overrides VitePress default theme CSS variables and components
    ============================================================= */
 
-/* --- Google Fonts: Inter --- */
+/* --- Typography: Google Fonts Inter --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
@@ -12,18 +12,19 @@
 
 
 /* =============================================================
-   Dark theme color overrides
+   Dark theme — background and surface colors
    ============================================================= */
 .dark {
-  --vp-c-bg:           #0d0d0d;
-  --vp-c-bg-soft:      #141414;
-  --vp-c-bg-mute:      #1a1a1a;
-  --vp-c-bg-alt:       #0d0d0d;
-  --vp-sidebar-bg-color: #0d0d0d;
-  --vp-nav-bg-color:   #0d0d0d;
-  --vp-c-divider:      #222222;
-  --vp-c-gutter:       #080808;
+  --vp-c-bg:             #0d0d0d;   /* main page background       */
+  --vp-c-bg-soft:        #141414;   /* cards, callout blocks      */
+  --vp-c-bg-mute:        #1a1a1a;   /* subtle muted surfaces      */
+  --vp-c-bg-alt:         #0d0d0d;   /* alternate bg (same as main)*/
+  --vp-sidebar-bg-color: #0d0d0d;   /* sidebar background         */
+  --vp-nav-bg-color:     #0d0d0d;   /* navbar background          */
+  --vp-c-divider:        #222222;   /* divider / border lines     */
+  --vp-c-gutter:         #080808;   /* layout gutter color        */
 }
+
 html.dark {
   background-color: #0d0d0d !important;
 }
@@ -33,9 +34,9 @@ html.dark {
    Navbar — frosted glass effect
    ============================================================= */
 .dark .VPNav {
-  border-bottom: 1px solid #1f1f1f;
+  border-bottom:   1px solid #1f1f1f;
   backdrop-filter: blur(12px);
-  background: rgba(13, 13, 13, 0.85) !important;
+  background:      rgba(13, 13, 13, 0.85) !important;
 }
 
 
@@ -44,12 +45,12 @@ html.dark {
    ============================================================= */
 .dark .VPSidebar {
   backdrop-filter: blur(8px);
-  background: rgba(13, 13, 13, 0.95) !important;
+  background:      rgba(13, 13, 13, 0.95) !important;
 }
 
 
 /* =============================================================
-   Hero section — homepage title animated rainbow gradient
+   Homepage hero — animated rainbow gradient title
    ============================================================= */
 .VPHero .name {
   background: linear-gradient(
@@ -57,11 +58,11 @@ html.dark {
     #ff6b6b, #feca57, #48dbfb,
     #ff9ff3, #54a0ff, #5f27cd, #ff6b6b
   );
-  background-size: 400% 400%;
+  background-size:         400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: rainbow 6s ease infinite;
+  background-clip:         text;
+  animation:               rainbow 6s ease infinite;
 }
 
 @keyframes rainbow {
@@ -72,7 +73,8 @@ html.dark {
 
 
 /* =============================================================
-   Custom callout blocks (tip / warning / danger / info)
+   Callout blocks
+   Usage: ::: tip | ::: warning | ::: danger | ::: info
    ============================================================= */
 .vp-doc .custom-block.tip     { border-color: #5eead4; }
 .vp-doc .custom-block.tip     .custom-block-title { color: #5eead4; }
@@ -88,8 +90,9 @@ html.dark {
 
 
 /* =============================================================
-   Badge component colors
+   Badge component
    Usage in markdown: <Badge type="tip" text="S+" />
+   Types: tip (green) | warning (yellow) | danger (red) | info (blue)
    ============================================================= */
 .vp-badge.tip {
   background: rgba(94, 234, 212, 0.12);
@@ -118,24 +121,24 @@ html.dark {
    ============================================================= */
 .dark div[class*='language-'] {
   background: #111111 !important;
-  border:     1px solid #222;
+  border:     1px solid #222222;
 }
 
 
 /* =============================================================
-   Tables — alternating row colors
+   Tables — alternating row colors in dark mode
    ============================================================= */
-.vp-doc table        { border-collapse: collapse; width: 100%; }
+.vp-doc table                    { border-collapse: collapse; width: 100%; }
 .dark .vp-doc tr:nth-child(even) { background: #141414; }
-.dark .vp-doc th     { background: #1a1a1a; }
+.dark .vp-doc th                 { background: #1a1a1a; }
 
 
 /* =============================================================
    Misc
    ============================================================= */
 
-/* Smooth anchor scrolling */
+/* Smooth anchor jump scrolling */
 html { scroll-behavior: smooth; }
 
-/* Subtle link transition */
+/* Subtle hover transition on all doc links */
 .vp-doc a { transition: color 0.2s; }
