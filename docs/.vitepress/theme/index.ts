@@ -13,37 +13,13 @@ import vitepressNprogress from 'vitepress-plugin-nprogress'
 import 'vitepress-plugin-nprogress/lib/css/index.css'
 
 // Components
-import Breadcrumb  from './components/Breadcrumb.vue'
-import ReadingTime from './components/ReadingTime.vue'
+import Breadcrumb       from './components/Breadcrumb.vue'
+import ReadingTime      from './components/ReadingTime.vue'
+import ReadingProgress  from './components/ReadingProgress.vue'
+import CopyHeadingLink  from './components/CopyHeadingLink.vue'
 
 // Global styles
 import './custom.css'
-
-// Highlights the heading that matches current URL hash
-// Works with VitePress router (hash doesn't trigger CSS :target)
-const HeadingHighlight = {
-  setup() {
-    const route = useRoute()
-
-    const highlight = () => {
-      // Remove previous highlight
-      document.querySelectorAll('.heading-highlighted').forEach(el => {
-        el.classList.remove('heading-highlighted')
-      })
-      const hash = decodeURIComponent(window.location.hash.slice(1))
-      if (!hash) return
-      const target = document.getElementById(hash)
-      if (!target) return
-      target.classList.add('heading-highlighted')
-      // Remove highlight after animation finishes
-      setTimeout(() => target.classList.remove('heading-highlighted'), 2000)
-    }
-
-    onMounted(() => nextTick(highlight))
-    watch(() => route.hash, () => nextTick(highlight))
-  },
-  render: () => null,
-}
 
 // Re-initializes zoom on every route change so new images are picked up
 const ZoomSetup = {
@@ -53,6 +29,29 @@ const ZoomSetup = {
       mediumZoom('.vp-doc img', { background: 'rgba(0,0,0,0.85)' })
     onMounted(() => nextTick(initZoom))
     watch(() => route.path, () => nextTick(initZoom))
+  },
+  render: () => null,
+}
+
+// Highlights the heading that matches current URL hash
+const HeadingHighlight = {
+  setup() {
+    const route = useRoute()
+
+    const highlight = () => {
+      document.querySelectorAll('.heading-highlighted').forEach(el => {
+        el.classList.remove('heading-highlighted')
+      })
+      const hash = decodeURIComponent(window.location.hash.slice(1))
+      if (!hash) return
+      const target = document.getElementById(hash)
+      if (!target) return
+      target.classList.add('heading-highlighted')
+      setTimeout(() => target.classList.remove('heading-highlighted'), 2500)
+    }
+
+    onMounted(() => nextTick(highlight))
+    watch(() => route.hash, () => nextTick(highlight))
   },
   render: () => null,
 }
@@ -67,7 +66,10 @@ export default {
         h(ReadingTime),
         h(ZoomSetup),
         h(HeadingHighlight),
+        h(CopyHeadingLink),
       ]),
+      // Reading progress badge — shown on all pages
+      'layout-bottom': () => h(ReadingProgress),
     })
   },
 
