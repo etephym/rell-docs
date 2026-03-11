@@ -8,7 +8,6 @@ import 'vitepress-plugin-nprogress/lib/css/index.css'
 import Breadcrumb from './components/Breadcrumb.vue'
 import ReadingTime from './components/ReadingTime.vue'
 import TemplateCallout from './components/TemplateCallout.vue'
-import BuildTemplateBoard from './components/BuildTemplateBoard.vue'
 
 import './style.css'
 import './custom.css'
@@ -28,6 +27,5 @@ export default {
 
     // Глобальный компонент для быстрых заметок-шаблонов в markdown.
     ctx.app.component('TemplateCallout', TemplateCallout)
-    ctx.app.component('BuildTemplateBoard', BuildTemplateBoard)
   },
 }

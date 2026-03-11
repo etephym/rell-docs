@@ -8,7 +8,7 @@ description: Гайды по Shindo + большая коллекция шабл
 hero:
   name: "Shindo Life"
   text: "Docs by ETEPHYM"
-  tagline: Гайды, механики, интерактивные шаблоны билда и полный VitePress toolbox
+  tagline: Гайды, механики и готовые шаблоны VitePress в одном месте
   image:
     src: /logo.jpg
     alt: Shindo Life
@@ -36,12 +36,8 @@ features:
     title: Шаблоны под доработку
     details: Можно копировать блоки в свой проект и адаптировать под любую структуру контента.
     link: /markdown-examples
-  - icon: 🛠️
-    title: Interactive Build Planner
-    details: В Guide и Tips встроены интерактивные шаблоны билда для PvP/War/Farm.
-    link: /tips#интерактивный-шаблон-билда
   - icon: 📦
     title: Runtime API
-    details: useData, useRoute, withBase и практические заготовки под кастомные docs-проекты.
+    details: useData, useRoute, withBase и примеры компонентов под VitePress.
     link: /api-examples
 ---

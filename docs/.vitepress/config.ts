@@ -28,7 +28,7 @@ export default defineConfig({
   lang: 'ru-RU',
   title: 'Shindo Life Docs',
   titleTemplate: ':title · Shindo Life',
-  description: 'Прокачанный Shindo-сайт: гайды, советы, интерактивные шаблоны и VitePress best practices.',
+  description: 'Максимально полный шаблон по VitePress + гайды и тир-листы по Shindo Life.',
 
   // Глобальные опции сборки/маршрутизации
   cleanUrls: true,
@@ -80,9 +80,7 @@ export default defineConfig({
         items: [
           { text: 'Главная', link: '/' },
           { text: 'Guide', link: '/guide' },
-          { text: 'Guide: Шаблоны в тексте', link: '/guide#шаблоны-прямо-в-guide', badge: { type: 'tip', text: 'TEMPLATES' } },
           { text: 'Tips & Tricks', link: '/tips' },
-          { text: 'Tips: Шаблоны заметок', link: '/tips#шаблоны-заметок-прямо-в-tips', badge: { type: 'warning', text: 'HOT' } },
         ],
       },
       {
