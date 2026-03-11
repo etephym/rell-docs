@@ -1,10 +1,7 @@
 <script setup lang="ts">
-// Starfield particles — only active on homepage (/ and /en/)
-// Mounts a canvas directly into body so it sits behind all content
+// Starfield particles — client-side only, homepage only
 import { onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { tsParticles } from '@tsparticles/engine'
-import { loadSlim } from '@tsparticles/slim'
 
 const route = useRoute()
 let initialized = false
@@ -12,6 +9,11 @@ let initialized = false
 async function start() {
   if (initialized) return
   initialized = true
+
+  // Dynamic import — avoids SSR crash
+  const { tsParticles } = await import('@tsparticles/engine')
+  const { loadSlim }    = await import('@tsparticles/slim')
+
   await loadSlim(tsParticles)
   await tsParticles.load({
     id: 'tsparticles',
@@ -23,10 +25,10 @@ async function start() {
         number:  { value: 130, density: { enable: true, width: 1920 } },
         color:   { value: ['#54a0ff', '#ff6b6b', '#ff9ff3', '#ffffff'] },
         opacity: {
-          value: { min: 0.1, max: 0.55 },
+          value:     { min: 0.1, max: 0.55 },
           animation: { enable: true, speed: 0.4, sync: false },
         },
-        size: { value: { min: 0.5, max: 1.8 } },
+        size:  { value: { min: 0.5, max: 1.8 } },
         move: {
           enable:    true,
           speed:     0.25,
@@ -36,23 +38,20 @@ async function start() {
         },
       },
       interactivity: {
-        events: {
-          onHover: { enable: true, mode: 'grab' },
-        },
-        modes: {
-          grab: { distance: 100, links: { opacity: 0.15 } },
-        },
+        events: { onHover: { enable: true, mode: 'grab' } },
+        modes:  { grab: { distance: 100, links: { opacity: 0.15 } } },
       },
       detectRetina: true,
     },
   })
 }
 
-function stop() {
+async function stop() {
+  if (!initialized) return
+  const { tsParticles } = await import('@tsparticles/engine')
   tsParticles.domItem(0)?.destroy()
-  initialized = false
-  // Remove canvas left by tsparticles
   document.getElementById('tsparticles')?.remove()
+  initialized = false
 }
 
 function check() {
