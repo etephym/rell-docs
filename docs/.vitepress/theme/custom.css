@@ -132,7 +132,9 @@ html:not(.dark) .VPNav {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip:         text;
-  animation:               rainbow 6s ease infinite;
+  filter:                  drop-shadow(0 0 7px rgba(255, 107, 107, 0.45))
+                           drop-shadow(0 0 16px rgba(84, 160, 255, 0.3));
+  animation:               rainbow 6s ease infinite, hero-glow 4s ease-in-out infinite;
 }
 
 @keyframes rainbow {
@@ -225,13 +227,4 @@ html      { scroll-behavior: smooth; }
    ============================================================= */
 body:has(.VPHome) .rp-wrap {
   display: none !important;
-}
-
-/* =============================================================
-   Hero name — glow animation (works alongside gradient in practice)
-   ============================================================= */
-.VPHero .name {
-  filter:    drop-shadow(0 0 7px rgba(255, 107, 107, 0.45))
-             drop-shadow(0 0 16px rgba(84, 160, 255, 0.3));
-  animation: rainbow 6s ease infinite, hero-glow 4s ease-in-out infinite;
 }
