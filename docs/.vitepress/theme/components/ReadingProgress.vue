@@ -10,8 +10,8 @@ const RADIUS = 20
 const CIRCUM = 2 * Math.PI * RADIUS
 
 let idleTimer: ReturnType<typeof setTimeout> | null = null
-let rafId:     number | null = null
-let total      = 0
+let total = 0
+let lastScroll = -1
 
 function calcTotal() {
   const contentEl = document.querySelector('.vp-doc')
@@ -24,25 +24,23 @@ function calcTotal() {
 }
 
 function update() {
-  if (rafId) return
-  rafId = requestAnimationFrame(() => {
-    rafId = null
-    const scrollY = window.scrollY
+  const scrollY = window.scrollY
+  if (scrollY === lastScroll) return
+  lastScroll = scrollY
 
-    if (total <= 0 || scrollY <= 0) {
-      progress.value = 0
-    } else if (scrollY >= total) {
-      progress.value = 100
-    } else {
-      progress.value = Math.round((scrollY / total) * 100)
-    }
+  if (total <= 0 || scrollY <= 0) {
+    progress.value = 0
+  } else if (scrollY >= total) {
+    progress.value = 100
+  } else {
+    progress.value = Math.round((scrollY / total) * 100)
+  }
 
-    visible.value = scrollY > 100
-    idle.value    = false
+  visible.value = scrollY > 100
+  idle.value    = false
 
-    if (idleTimer) clearTimeout(idleTimer)
-    idleTimer = setTimeout(() => { idle.value = true }, 3000)
-  })
+  if (idleTimer) clearTimeout(idleTimer)
+  idleTimer = setTimeout(() => { idle.value = true }, 3000)
 }
 
 function scrollToTop() {
@@ -52,15 +50,13 @@ function scrollToTop() {
 onMounted(() => {
   calcTotal()
   window.addEventListener('scroll', update, { passive: true })
-  window.addEventListener('resize', calcTotal)
+  window.addEventListener('resize', () => { calcTotal(); update() })
   update()
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', update)
-  window.removeEventListener('resize', calcTotal)
   if (idleTimer) clearTimeout(idleTimer)
-  if (rafId)     cancelAnimationFrame(rafId)
 })
 
 const strokeOffset = (pct: number) => CIRCUM - (pct / 100) * CIRCUM
@@ -133,11 +129,7 @@ const strokeOffset = (pct: number) => CIRCUM - (pct / 100) * CIRCUM
 }
 
 .rp-arc {
-  transition: stroke-dashoffset 0.4s ease-out;
-}
-
-.rp-arc--done {
-  transition: none;
+  transition: stroke-dashoffset 0.15s linear;
 }
 
 .rp-label {
