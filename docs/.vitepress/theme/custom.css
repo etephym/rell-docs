@@ -413,3 +413,10 @@ a.VPNavScreenMenuLink,
   height: 38px !important;
   min-height: unset !important;
 }
+
+/* =============================================================
+   Mobile nav — override scoped VitePress button height
+   ============================================================= */
+.VPNavScreenMenuGroup[data-v-956364f9] {
+  height: 38px !important;
+}
