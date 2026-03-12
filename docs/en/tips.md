@@ -60,7 +60,7 @@ Rush at an opponent or a training log, then press Z — you will stay in tailed 
 
 ---
 
-## Useful Information
+## Useful Info
 
 - More Nin = faster chakra regen.
 - Damage is increased if the target has a burn effect.
