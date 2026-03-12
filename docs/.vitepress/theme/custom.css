@@ -398,3 +398,10 @@ a.VPNavScreenMenuLink,
 .VPNavScreenMenuGroup {
   overflow: visible !important;
 }
+
+/* =============================================================
+   Mobile nav — match group height to link height
+   ============================================================= */
+:root {
+  --vp-nav-screen-menu-group-height: 40px;
+}
