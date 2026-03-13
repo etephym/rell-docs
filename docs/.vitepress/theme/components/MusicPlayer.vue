@@ -1,59 +1,90 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const VIDEO_ID = 'Rv0QsmjIQ_U'
+const playing  = ref(false)
+const ready    = ref(false)
+let   player: any = null
 
-const playing = ref(false)
-const visible = ref(false)
+function onYTReady() {
+  player = new (window as any).YT.Player('yt-player', {
+    videoId: VIDEO_ID,
+    playerVars: {
+      autoplay:       0,
+      controls:       0,
+      loop:           1,
+      playlist:       VIDEO_ID,
+      modestbranding: 1,
+      rel:            0,
+    },
+    events: {
+      onReady: () => { ready.value = true },
+    },
+  })
+}
 
 function toggle() {
-  if (!visible.value) {
-    visible.value = true
-    setTimeout(() => { playing.value = true }, 100)
+  if (!player || !ready.value) return
+  if (playing.value) {
+    player.pauseVideo()
+    playing.value = false
   } else {
-    playing.value = !playing.value
+    player.playVideo()
+    playing.value = true
   }
 }
 
-const src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&disablekb=1&modestbranding=1&rel=0`
+onMounted(() => {
+  if ((window as any).YT && (window as any).YT.Player) {
+    onYTReady()
+    return
+  }
+  const tag = document.createElement('script')
+  tag.src   = 'https://www.youtube.com/iframe_api'
+  document.head.appendChild(tag)
+  ;(window as any).onYouTubeIframeAPIReady = onYTReady
+})
+
+onUnmounted(() => {
+  if (player) player.destroy()
+})
 </script>
 
 <template>
-  <div class="mp-wrap">
-    <iframe
-      v-if="visible && playing"
-      :src="src"
-      allow="autoplay"
-      style="display:none"
-    />
+  <Teleport to="body">
+    <div class="mp-wrap">
 
-    <div class="mp-widget" :class="{ playing }">
-      <button class="mp-btn" @click="toggle" :title="playing ? 'Пауза' : 'Играть'">
-        <span v-if="playing" class="mp-bars">
-          <span /><span /><span /><span />
-        </span>
-        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="5,3 19,12 5,21" />
-        </svg>
-      </button>
+      <!-- Hidden YouTube player -->
+      <div id="yt-player" style="display:none" />
 
-      <div class="mp-info">
-        <span class="mp-title">Synthwave Mix</span>
-        <span class="mp-sub">{{ playing ? 'Играет...' : 'Фоновая музыка' }}</span>
+      <div class="mp-widget" :class="{ playing }">
+        <button class="mp-btn" @click="toggle" :title="playing ? 'Пауза' : 'Играть'">
+          <span v-if="playing" class="mp-bars">
+            <span /><span /><span /><span />
+          </span>
+          <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21" />
+          </svg>
+        </button>
+
+        <div class="mp-info">
+          <span class="mp-title">Synthwave Mix</span>
+          <span class="mp-sub">{{ playing ? 'Играет...' : 'Фоновая музыка' }}</span>
+        </div>
       </div>
+
     </div>
-  </div>
+  </Teleport>
 </template>
 
-<style scoped>
+<style>
 .mp-wrap {
   position: fixed;
   bottom:   80px;
   left:     24px;
-  z-index:  99;
+  z-index:  999;
 }
 
-/* --- Dark theme (default) --- */
 .mp-widget {
   display:                 flex;
   align-items:             center;
@@ -67,11 +98,23 @@ const src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlis
   box-shadow:              0 4px 24px rgba(0, 0, 0, 0.35);
   transition:              box-shadow 0.3s ease, border-color 0.3s ease;
   user-select:             none;
+  cursor:                  default;
 }
 
 .mp-widget.playing {
   border-color: rgba(84, 160, 255, 0.3);
   box-shadow:   0 4px 24px rgba(84, 160, 255, 0.15);
+}
+
+:root:not(.dark) .mp-widget {
+  background:   rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow:   0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+:root:not(.dark) .mp-widget.playing {
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow:   0 4px 24px rgba(37, 99, 235, 0.12);
 }
 
 .mp-btn {
@@ -87,36 +130,15 @@ const src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlis
   cursor:          pointer;
   flex-shrink:     0;
   transition:      background 0.2s ease, transform 0.15s ease;
+  touch-action:    manipulation;
 }
 
 .mp-btn:hover  { background: rgba(84, 160, 255, 0.28); transform: scale(1.08); }
 .mp-btn:active { transform: scale(0.95); }
 
-.mp-title { font-size: 13px; font-weight: 600; color: var(--vp-c-text-1); line-height: 1.3; }
-.mp-sub   { font-size: 11px; color: var(--vp-c-text-3); }
+:root:not(.dark) .mp-btn       { background: rgba(37, 99, 235, 0.1);  color: #2563eb; }
+:root:not(.dark) .mp-btn:hover { background: rgba(37, 99, 235, 0.2); }
 
-/* --- Light theme --- */
-:root:not(.dark) .mp-widget {
-  background:   rgba(255, 255, 255, 0.75);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow:   0 4px 24px rgba(0, 0, 0, 0.08);
-}
-
-:root:not(.dark) .mp-widget.playing {
-  border-color: rgba(37, 99, 235, 0.25);
-  box-shadow:   0 4px 24px rgba(37, 99, 235, 0.12);
-}
-
-:root:not(.dark) .mp-btn {
-  background: rgba(37, 99, 235, 0.1);
-  color:      #2563eb;
-}
-
-:root:not(.dark) .mp-btn:hover {
-  background: rgba(37, 99, 235, 0.2);
-}
-
-/* --- Animated bars --- */
 .mp-bars {
   display:     flex;
   align-items: flex-end;
@@ -144,5 +166,7 @@ const src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlis
   50%       { transform: scaleY(1);   }
 }
 
-.mp-info { display: flex; flex-direction: column; gap: 1px; }
+.mp-info  { display: flex; flex-direction: column; gap: 1px; }
+.mp-title { font-size: 13px; font-weight: 600; color: var(--vp-c-text-1); line-height: 1.3; }
+.mp-sub   { font-size: 11px; color: var(--vp-c-text-3); }
 </style>
