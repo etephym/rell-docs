@@ -9,7 +9,7 @@ const { page } = useData()
       <span>
         <a href="https://github.com/etephym/shindo">Shindo Life Docs</a>
         © 2024–2026 by
-        <a href="https://github.com/etephym">ezrqq / lewisky</a>
+        <a href="https://github.com/ezrqq">ezrqq / lewisky</a>
         is licensed under
         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
         <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" />
