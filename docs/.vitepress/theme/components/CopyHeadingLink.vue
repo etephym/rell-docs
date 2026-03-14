@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch, computed } from 'vue'
+import { onMounted, onUnmounted, watch, ref } from 'vue'
 import { useRoute } from 'vitepress'
 
 const route = useRoute()
 
-const isEn        = computed(() => route.path.startsWith('/en/'))
-const labelCopy   = computed(() => isEn.value ? 'Copy link'              : 'Скопировать ссылку')
-const labelAria   = computed(() => isEn.value ? 'Copy link to heading'   : 'Скопировать ссылку на заголовок')
-const labelCopied = computed(() => isEn.value ? 'Copied!'                : 'Скопировано!')
+const isEn        = ref(false)
+const labelCopy   = () => isEn.value ? 'Copy link'            : 'Скопировать ссылку'
+const labelAria   = () => isEn.value ? 'Copy link to heading' : 'Скопировать ссылку на заголовок'
+const labelCopied = () => isEn.value ? 'Copied!'              : 'Скопировано!'
+
+function updateLocale(): void {
+  isEn.value = document.documentElement.lang === 'en-US'
+}
 
 type Handler = { el: HTMLElement; fn: () => void }
 let handlers: Handler[] = []
@@ -57,8 +61,8 @@ function init(): void {
   })
 }
 
-onMounted(() => requestAnimationFrame(init))
-watch(() => route.path, () => requestAnimationFrame(init))
+onMounted(() => { updateLocale(); requestAnimationFrame(init) })
+watch(() => route.path, () => { updateLocale(); requestAnimationFrame(init) })
 onUnmounted(cleanup)
 </script>
 
