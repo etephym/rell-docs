@@ -9,7 +9,8 @@ hero:
   text: "Docs by ETEPHYM"
   tagline: Все гайды, тир-листы и механики в одном месте
   image:
-    src: /logo.png
+    dark: /logo.png
+    light: /logo2.png
     alt: Shindo Life
   actions:
     - theme: brand

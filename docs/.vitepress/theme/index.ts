@@ -18,8 +18,9 @@ import './custom.css'
 
 // =============================================================
 // Music Player — HTML5 Audio, draggable, vanilla JS
+// Guard at the top prevents duplicate mounts on re-entry
 // =============================================================
-function setupMusicPlayer() {
+function setupMusicPlayer(): void {
   if (document.getElementById('mp-root')) return
 
   const audio = new Audio('/shindo/Zerofuturism - a coldcore ambient playlist.mp3')
@@ -31,55 +32,58 @@ function setupMusicPlayer() {
   wrap.id    = 'mp-root'
   wrap.innerHTML = [
     '<div id="mp-widget">',
-    '  <button id="mp-btn" title="Играть">',
+    '  <button id="mp-btn" title="Play">',
     '    <svg id="mp-icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>',
     '    <span id="mp-icon-bars" style="display:none" class="mp-bars"><span></span><span></span><span></span><span></span></span>',
     '  </button>',
     '  <div class="mp-info">',
     '    <span class="mp-title">Zerofuturism</span>',
-    '    <span id="mp-sub" class="mp-sub">Фоновая музыка</span>',
+    '    <span id="mp-sub" class="mp-sub">Background music</span>',
     '  </div>',
     '</div>',
   ].join('')
   document.body.appendChild(wrap)
 
-  const btn      = document.getElementById('mp-btn')
-  const sub      = document.getElementById('mp-sub')
-  const iconPlay = document.getElementById('mp-icon-play')
-  const iconBars = document.getElementById('mp-icon-bars')
-  const widget   = document.getElementById('mp-widget')
-  const root     = document.getElementById('mp-root')
+  const btn      = document.getElementById('mp-btn')       as HTMLButtonElement
+  const sub      = document.getElementById('mp-sub')       as HTMLSpanElement
+  const iconPlay = document.getElementById('mp-icon-play') as HTMLElement
+  const iconBars = document.getElementById('mp-icon-bars') as HTMLElement
+  const widget   = document.getElementById('mp-widget')    as HTMLElement
+  const root     = document.getElementById('mp-root')      as HTMLElement
 
-  function setPlaying(val) {
+  function setPlaying(val: boolean): void {
     playing                = val
-    iconPlay.style.display = val ? 'none'        : 'block'
-    iconBars.style.display = val ? 'inline-flex' : 'none'
-    sub.textContent        = val ? 'Играет...'   : 'Фоновая музыка'
+    iconPlay.style.display = val ? 'none'             : 'block'
+    iconBars.style.display = val ? 'inline-flex'      : 'none'
+    sub.textContent        = val ? 'Playing...'       : 'Background music'
     widget.classList.toggle('playing', val)
   }
 
   // --- Drag ---
   let dragging = false
   let didDrag  = false
-  let startX = 0, startY = 0, origLeft = 0, origTop = 0
+  let startX   = 0
+  let startY   = 0
+  let origLeft = 0
+  let origTop  = 0
 
-  function dragStart(clientX, clientY) {
-    const rect = root.getBoundingClientRect()
-    dragging = true
-    didDrag  = false
-    startX   = clientX
-    startY   = clientY
-    origLeft = rect.left
-    origTop  = rect.top
+  function dragStart(clientX: number, clientY: number): void {
+    const rect   = root.getBoundingClientRect()
+    dragging     = true
+    didDrag      = false
+    startX       = clientX
+    startY       = clientY
+    origLeft     = rect.left
+    origTop      = rect.top
     root.style.transition = 'none'
-    root.style.bottom = 'auto'
-    root.style.right  = 'auto'
-    root.style.left   = origLeft + 'px'
-    root.style.top    = origTop  + 'px'
+    root.style.bottom     = 'auto'
+    root.style.right      = 'auto'
+    root.style.left       = origLeft + 'px'
+    root.style.top        = origTop  + 'px'
     root.classList.add('dragging')
   }
 
-  function dragMove(clientX, clientY) {
+  function dragMove(clientX: number, clientY: number): void {
     if (!dragging) return
     const dx = clientX - startX
     const dy = clientY - startY
@@ -88,22 +92,27 @@ function setupMusicPlayer() {
     root.style.top  = Math.min(Math.max(0, origTop  + dy), window.innerHeight - root.offsetHeight) + 'px'
   }
 
-  function dragEnd() { dragging = false; root.style.transition = ''; root.classList.remove('dragging') }
+  function dragEnd(): void {
+    dragging = false
+    root.style.transition = ''
+    root.classList.remove('dragging')
+  }
 
-  widget.addEventListener('mousedown', e => {
-    // Не начинаем drag при клике на кнопку воспроизведения
+  widget.addEventListener('mousedown', (e: MouseEvent) => {
     if ((e.target as HTMLElement).closest('#mp-btn')) return
     dragStart(e.clientX, e.clientY)
   })
-  document.addEventListener('mousemove', e => dragMove(e.clientX, e.clientY))
+  document.addEventListener('mousemove', (e: MouseEvent) => dragMove(e.clientX, e.clientY))
   document.addEventListener('mouseup',   () => dragEnd())
 
-  widget.addEventListener('touchstart', e => {
+  widget.addEventListener('touchstart', (e: TouchEvent) => {
     if ((e.target as HTMLElement).closest('#mp-btn')) return
     dragStart(e.touches[0].clientX, e.touches[0].clientY)
   }, { passive: true })
-  document.addEventListener('touchmove', e => { if (dragging) { e.preventDefault(); dragMove(e.touches[0].clientX, e.touches[0].clientY) } }, { passive: false })
-  document.addEventListener('touchend',  () => dragEnd())
+  document.addEventListener('touchmove', (e: TouchEvent) => {
+    if (dragging) { e.preventDefault(); dragMove(e.touches[0].clientX, e.touches[0].clientY) }
+  }, { passive: false })
+  document.addEventListener('touchend', () => dragEnd())
 
   btn.addEventListener('click', () => {
     if (didDrag) return
@@ -112,6 +121,9 @@ function setupMusicPlayer() {
   })
 }
 
+// =============================================================
+// Medium Zoom — re-initializes on every route change
+// =============================================================
 const ZoomSetup = {
   setup() {
     const route = useRoute()
@@ -122,6 +134,9 @@ const ZoomSetup = {
   render: () => null,
 }
 
+// =============================================================
+// Heading Highlight — flashes underline on anchor target
+// =============================================================
 const HeadingHighlight = {
   setup() {
     const route = useRoute()
@@ -142,6 +157,9 @@ const HeadingHighlight = {
   render: () => null,
 }
 
+// =============================================================
+// Reading Progress — hidden on homepage via CSS
+// =============================================================
 const ProgressWrapper = {
   setup() {
     const route = useRoute()
@@ -172,10 +190,6 @@ export default {
   enhanceApp(ctx: EnhanceAppContext) {
     DefaultTheme.enhanceApp(ctx)
     vitepressNprogress(ctx)
-    // Запускаем плеер один раз — setTimeout(0) гарантирует,
-    // что DOM уже готов, а guard внутри setupMusicPlayer предотвращает дубли.
-    if (typeof window !== 'undefined') {
-      setTimeout(setupMusicPlayer, 0)
-    }
+    if (typeof window !== 'undefined') setupMusicPlayer()
   },
 }

@@ -29,7 +29,7 @@ export default defineConfig({
 
   // --- Build options ---
   base:            '/shindo/',
-  appearance:      true,        // respect user's saved preference; default falls back to OS preference
+  appearance:      true,       // respects user saved preference; defaults to OS preference
   cleanUrls:       true,
   lastUpdated:     true,
   metaChunk:       true,
@@ -61,19 +61,9 @@ export default defineConfig({
       description:   'Гайды, тир-листы и механики Shindo Life от ETEPHYM',
 
       head: [
-        // ── Тёмная тема по умолчанию при первом посещении ──────────────────
-        // Запускается до рендера страницы → нет "мигания" белым экраном.
-        // VitePress хранит выбор пользователя в localStorage под ключом
-        // 'vitepress-theme-appearance'. Если ключа ещё нет — ставим 'dark'.
-        ['script', {}, `
-          (function () {
-            var key = 'vitepress-theme-appearance';
-            if (!localStorage.getItem(key)) {
-              localStorage.setItem(key, 'dark');
-            }
-          })();
-        `],
-        // ───────────────────────────────────────────────────────────────────
+        // Inject dark theme before first render to prevent white flash.
+        // Sets localStorage key only if the user has no saved preference.
+        ['script', {}, `(function(){var k='vitepress-theme-appearance';if(!localStorage.getItem(k))localStorage.setItem(k,'dark');})()`],
         ['link', { rel: 'icon', href: `/shindo${logoPath}` }],
         ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
         ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
@@ -91,9 +81,8 @@ export default defineConfig({
         },
         siteTitle: 'Shindo Life',
 
-        // Links removed — social icons already in top-right
         nav: [
-          { text: '🏠 Главная', link: '/'      },
+          { text: '🏠 Главная', link: '/' },
           {
             text: '📚 Контент',
             items: [
@@ -147,9 +136,9 @@ export default defineConfig({
             text: '📋 Прочее',
             collapsed: true,
             items: [
-              { text: 'Термины',      link: '/guide#terms',      badge: { type: 'info',    text: 'Новичкам' } },
-              { text: 'Правила',      link: '/guide#shindo-rules'                                              },
-              { text: 'Баг слотов',   link: '/guide#slot-bug',   badge: { type: 'warning', text: 'Важно'     } },
+              { text: 'Термины',    link: '/guide#terms',      badge: { type: 'info',    text: 'Новичкам' } },
+              { text: 'Правила',    link: '/guide#shindo-rules'                                              },
+              { text: 'Баг слотов', link: '/guide#slot-bug',   badge: { type: 'warning', text: 'Важно'     } },
             ],
           },
         ],
@@ -203,7 +192,7 @@ export default defineConfig({
     },
 
     // =========================================================
-    // English — soon
+    // English — in progress
     // To translate: fill docs/en/index.md, guide.md, tips.md
     // =========================================================
     en: {
@@ -319,7 +308,7 @@ export default defineConfig({
         },
 
         footer: {
-          message:   'Made with ❤️ by ETEPHYM',
+          message:   '<a href="https://github.com/ezrqq">ezrqq / lewisky</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg">',
           copyright: 'Shindo Life Docs © 2024–2026',
         },
 
