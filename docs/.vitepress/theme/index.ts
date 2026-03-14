@@ -142,6 +142,19 @@ function setupMusicPlayer(): void {
     if (playing) { audio.pause(); setPlaying(false) }
     else         { audio.play().catch(() => {}); setPlaying(true) }
   })
+
+  function updateLabels(): void {
+    const nowRu      = isRuPath()
+    const nowIdle    = nowRu ? 'Фоновая музыка' : 'Background music'
+    const nowPlaying = nowRu ? 'Играет...'       : 'Playing...'
+    const nowTitle   = nowRu ? (playing ? 'Пауза' : 'Играть') : (playing ? 'Pause' : 'Play')
+    sub.textContent  = playing ? nowPlaying : nowIdle
+    btn.title        = nowTitle
+    btn.setAttribute('aria-label', nowTitle)
+  }
+
+  const langObserver = new MutationObserver(updateLabels)
+  langObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] })
 }
 
 const ZoomSetup = {
