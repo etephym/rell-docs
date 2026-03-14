@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch, computed } from 'vue'
 import { useRoute } from 'vitepress'
 
 const WORDS_PER_MINUTE = 200
 
-const wordCount = ref(0)
+const wordCount   = ref(0)
 const readingTime = ref(0)
-const route = useRoute()
+const route       = useRoute()
+
+const isEn       = computed(() => route.path.startsWith('/en/'))
+const labelWords = computed(() => isEn.value ? 'words'    : 'слов')
+const labelMin   = computed(() => isEn.value ? 'min read' : 'мин. чтения')
 
 function calculate(): void {
   const el = document.querySelector('.vp-doc')
-  if (!el) {
-    wordCount.value = 0
-    readingTime.value = 0
-    return
-  }
-
-  const words = (el.textContent ?? '').trim().split(/\s+/).filter(Boolean).length
-  wordCount.value = words
+  if (!el) { wordCount.value = 0; readingTime.value = 0; return }
+  const words       = (el.textContent ?? '').trim().split(/\s+/).filter(Boolean).length
+  wordCount.value   = words
   readingTime.value = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE))
 }
 
@@ -32,46 +31,36 @@ watch(() => route.path, calculateAfterRender)
 <template>
   <div v-if="wordCount > 0" class="reading-meta">
     <span class="meta-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
       </svg>
-      {{ wordCount }} words
+      {{ wordCount }} {{ labelWords }}
     </span>
-
-    <span class="sep">·</span>
-
+    <span class="sep" aria-hidden="true">·</span>
     <span class="meta-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
       </svg>
-      {{ readingTime }} min read
+      {{ readingTime }} {{ labelMin }}
     </span>
   </div>
 </template>
 
 <style scoped>
 .reading-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--vp-c-text-2);
+  display:       inline-flex;
+  align-items:   center;
+  gap:           8px;
+  font-size:     13px;
+  color:         var(--vp-c-text-2);
   margin-bottom: 20px;
-  padding: 6px 14px;
-  background: var(--vp-c-bg-soft);
+  padding:       6px 14px;
+  background:    var(--vp-c-bg-soft);
   border-radius: 8px;
-  border: 1px solid var(--vp-c-divider);
+  border:        1px solid var(--vp-c-divider);
 }
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.sep {
-  opacity: 0.3;
-}
+.meta-item { display: flex; align-items: center; gap: 5px; }
+.sep       { opacity: 0.3; }
 </style>

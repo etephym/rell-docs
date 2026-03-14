@@ -1,10 +1,10 @@
 import DefaultTheme from 'vitepress/theme'
 import { h, nextTick, onMounted, watch } from 'vue'
-import { useRoute, withBase } from 'vitepress'
+import { useRoute } from 'vitepress'
 import type { EnhanceAppContext } from 'vitepress'
 import mediumZoom from 'medium-zoom'
 
-import vitepressNprogress           from 'vitepress-plugin-nprogress'
+import vitepressNprogress from 'vitepress-plugin-nprogress'
 import 'vitepress-plugin-nprogress/lib/css/index.css'
 
 import Breadcrumb      from './components/Breadcrumb.vue'
@@ -16,29 +16,34 @@ import Copyright       from './components/Copyright.vue'
 
 import './custom.css'
 
-// =============================================================
-// Music Player — HTML5 Audio, draggable, vanilla JS
-// Guard at the top prevents duplicate mounts on re-entry
-// =============================================================
+function isRuPath(): boolean {
+  return !window.location.pathname.includes('/en/')
+}
+
 function setupMusicPlayer(): void {
   if (document.getElementById('mp-root')) return
 
-  const audio = new Audio(withBase('/Zerofuturism - a coldcore ambient playlist.mp3'))
+  const ru           = isRuPath()
+  const labelIdle    = ru ? 'Фоновая музыка' : 'Background music'
+  const labelPlaying = ru ? 'Играет...'       : 'Playing...'
+  const titlePlay    = ru ? 'Играть'          : 'Play'
+
+  const audio = new Audio('/shindo/Zerofuturism - a coldcore ambient playlist.mp3')
   audio.loop   = true
   audio.volume = 0.5
   let playing  = false
 
   const wrap = document.createElement('div')
-  wrap.id    = 'mp-root'
+  wrap.id = 'mp-root'
   wrap.innerHTML = [
     '<div id="mp-widget">',
-    '  <button id="mp-btn" title="Play">',
+    `  <button id="mp-btn" title="${titlePlay}">`,
     '    <svg id="mp-icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>',
     '    <span id="mp-icon-bars" style="display:none" class="mp-bars"><span></span><span></span><span></span><span></span></span>',
     '  </button>',
     '  <div class="mp-info">',
     '    <span class="mp-title">Zerofuturism</span>',
-    '    <span id="mp-sub" class="mp-sub">Background music</span>',
+    `    <span id="mp-sub" class="mp-sub">${labelIdle}</span>`,
     '  </div>',
     '</div>',
   ].join('')
@@ -55,11 +60,10 @@ function setupMusicPlayer(): void {
     playing                = val
     iconPlay.style.display = val ? 'none'        : 'block'
     iconBars.style.display = val ? 'inline-flex' : 'none'
-    sub.textContent        = val ? 'Playing...'  : 'Background music'
+    sub.textContent        = val ? labelPlaying  : labelIdle
     widget.classList.toggle('playing', val)
   }
 
-  // --- Drag ---
   let dragging = false
   let didDrag  = false
   let startX   = 0
@@ -68,13 +72,13 @@ function setupMusicPlayer(): void {
   let origTop  = 0
 
   function dragStart(clientX: number, clientY: number): void {
-    const rect   = root.getBoundingClientRect()
-    dragging     = true
-    didDrag      = false
-    startX       = clientX
-    startY       = clientY
-    origLeft     = rect.left
-    origTop      = rect.top
+    const rect        = root.getBoundingClientRect()
+    dragging          = true
+    didDrag           = false
+    startX            = clientX
+    startY            = clientY
+    origLeft          = rect.left
+    origTop           = rect.top
     root.style.transition = 'none'
     root.style.bottom     = 'auto'
     root.style.right      = 'auto'
@@ -104,7 +108,7 @@ function setupMusicPlayer(): void {
     dragStart(e.clientX, e.clientY)
   })
   document.addEventListener('mousemove', (e: MouseEvent) => dragMove(e.clientX, e.clientY))
-  document.addEventListener('mouseup',   () => dragEnd())
+  document.addEventListener('mouseup', () => dragEnd())
 
   widget.addEventListener('touchstart', (e: TouchEvent) => {
     if ((e.target as HTMLElement).closest('#mp-btn')) return
@@ -122,28 +126,20 @@ function setupMusicPlayer(): void {
   })
 }
 
-// =============================================================
-// Medium Zoom — re-initializes on every route change
-// =============================================================
 const ZoomSetup = {
   setup() {
     const route = useRoute()
     let zoomInstance: ReturnType<typeof mediumZoom> | null = null
-
     const init = () => {
       zoomInstance?.detach()
       zoomInstance = mediumZoom('.vp-doc img', { background: 'rgba(0,0,0,0.85)' })
     }
-
     onMounted(() => nextTick(init))
     watch(() => route.path, () => nextTick(init))
   },
   render: () => null,
 }
 
-// =============================================================
-// Heading Highlight — flashes underline on anchor target
-// =============================================================
 const HeadingHighlight = {
   setup() {
     const route = useRoute()
@@ -164,9 +160,6 @@ const HeadingHighlight = {
   render: () => null,
 }
 
-// =============================================================
-// Reading Progress — hidden on homepage via CSS
-// =============================================================
 const ProgressWrapper = {
   setup() {
     const route = useRoute()
@@ -197,6 +190,8 @@ export default {
   enhanceApp(ctx: EnhanceAppContext) {
     DefaultTheme.enhanceApp(ctx)
     vitepressNprogress(ctx)
-    if (typeof window !== 'undefined') setupMusicPlayer()
+    if (typeof window !== 'undefined') {
+      setTimeout(setupMusicPlayer, 0)
+    }
   },
 }
