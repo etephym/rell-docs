@@ -33,14 +33,31 @@ html:not(.dark) .VPNav { background: rgba(255,255,255,0.4) !important; }
 .dark .VPSidebar.open,
 .dark .VPSidebar .curtain { background: #0a0a0b !important; }
 .dark .VPSidebar {
-  border-right: 1px solid transparent;
-  animation: sidebar-border-glow 4s ease-in-out infinite;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 1px 0 8px rgba(255,255,255,0.04);
+  animation: sidebar-aurora-dark 6s ease-in-out infinite;
 }
 
-@keyframes sidebar-border-glow {
-  0%,100% { border-right-color: rgba(84,160,255,0.25); }
-  33%     { border-right-color: rgba(255,107,107,0.25); }
-  66%     { border-right-color: rgba(255,159,243,0.25); }
+html:not(.dark) .VPSidebar {
+  border-right: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 1px 0 8px rgba(0,0,0,0.04);
+  animation: sidebar-aurora-light 6s ease-in-out infinite;
+}
+
+@keyframes sidebar-aurora-dark {
+  0%   { border-right-color: rgba(255,255,255,0.04); box-shadow: 1px 0 6px rgba(255,255,255,0.03), 2px 0 14px rgba(255,255,255,0.02); }
+  25%  { border-right-color: rgba(255,255,255,0.18); box-shadow: 1px 0 10px rgba(255,255,255,0.10), 3px 0 22px rgba(200,220,255,0.07); }
+  50%  { border-right-color: rgba(220,230,255,0.22); box-shadow: 1px 0 14px rgba(210,225,255,0.13), 4px 0 28px rgba(180,200,255,0.08); }
+  75%  { border-right-color: rgba(255,255,255,0.12); box-shadow: 1px 0 8px rgba(255,255,255,0.07), 2px 0 18px rgba(255,255,255,0.04); }
+  100% { border-right-color: rgba(255,255,255,0.04); box-shadow: 1px 0 6px rgba(255,255,255,0.03), 2px 0 14px rgba(255,255,255,0.02); }
+}
+
+@keyframes sidebar-aurora-light {
+  0%   { border-right-color: rgba(0,0,0,0.05); box-shadow: 1px 0 6px rgba(0,0,0,0.03), 2px 0 14px rgba(0,0,0,0.02); }
+  25%  { border-right-color: rgba(0,0,0,0.14); box-shadow: 1px 0 10px rgba(0,0,0,0.07), 3px 0 20px rgba(0,0,0,0.04); }
+  50%  { border-right-color: rgba(80,80,100,0.18); box-shadow: 1px 0 14px rgba(60,60,90,0.09), 4px 0 26px rgba(60,60,90,0.05); }
+  75%  { border-right-color: rgba(0,0,0,0.09); box-shadow: 1px 0 8px rgba(0,0,0,0.05), 2px 0 16px rgba(0,0,0,0.03); }
+  100% { border-right-color: rgba(0,0,0,0.05); box-shadow: 1px 0 6px rgba(0,0,0,0.03), 2px 0 14px rgba(0,0,0,0.02); }
 }
 
 /* VPLocalNav */
