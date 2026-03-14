@@ -40,8 +40,8 @@ const footerMessage =
 
 const defaultThemeScript = `(function(){var k='vitepress-theme-appearance';if(!localStorage.getItem(k))localStorage.setItem(k,'dark');})()`
 
-const sharedHead: [string, Record<string, string>][] = [
-  ['script', { children: defaultThemeScript } as never],
+const sharedHead = [
+  ['script', {}, defaultThemeScript],
   ['link', { rel: 'icon', href: `${BASE_PATH}${logoPath.replace(/^\//, '')}` }],
   ['meta', { name: 'theme-color', content: '#0d0d0d' }],
   ['meta', { property: 'og:image', content: `${SITE_URL}${BASE_PATH}${logoPath.replace(/^\//, '')}` }],
@@ -237,6 +237,7 @@ export default defineConfig({
         ['meta', { property: 'og:type',        content: 'website' }],
         ['meta', { property: 'og:title',       content: 'Shindo Life Docs' }],
         ['meta', { property: 'og:description', content: 'Guides, tier lists and mechanics for Shindo Life' }],
+        ['meta', { name: 'robots',             content: 'noindex' }],
       ],
       themeConfig: createThemeConfig({
         nav: [

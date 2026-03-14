@@ -15,7 +15,9 @@ const labelMin   = computed(() => isEn.value ? 'min read' : 'мин. чтени�
 function calculate(): void {
   const el = document.querySelector('.vp-doc')
   if (!el) { wordCount.value = 0; readingTime.value = 0; return }
-  const words       = (el.textContent ?? '').trim().split(/\s+/).filter(Boolean).length
+  const clone = el.cloneNode(true) as HTMLElement
+  clone.querySelectorAll('.copy-heading-btn').forEach(b => b.remove())
+  const words       = (clone.textContent ?? '').trim().split(/\s+/).filter(Boolean).length
   wordCount.value   = words
   readingTime.value = Math.max(1, Math.ceil(words / WORDS_PER_MINUTE))
 }
