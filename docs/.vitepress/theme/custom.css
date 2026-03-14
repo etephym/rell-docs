@@ -239,3 +239,7 @@ html:not(.dark) .mp-bars span { background: #2563eb; }
   #mp-root   { left: 12px; bottom: calc(72px + var(--mp-visual-bottom-gap, 0px)); }
   #mp-widget { padding-right: 12px; }
 }
+
+/* VPMenu dropdown */
+.dark .VPMenu           { background-color: rgba(13,13,13,0.75) !important; border-color: rgba(255,255,255,0.08) !important; }
+html:not(.dark) .VPMenu { background-color: rgba(255,255,255,0.75) !important; border-color: rgba(0,0,0,0.08) !important; }
