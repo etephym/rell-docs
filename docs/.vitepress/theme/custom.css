@@ -241,5 +241,24 @@ html:not(.dark) .mp-bars span { background: #2563eb; }
 }
 
 /* VPMenu dropdown */
-.dark .VPMenu           { background-color: rgba(13,13,13,0.75) !important; border-color: rgba(255,255,255,0.08) !important; }
-html:not(.dark) .VPMenu { background-color: rgba(255,255,255,0.75) !important; border-color: rgba(0,0,0,0.08) !important; }
+.VPMenu {
+  background-color: transparent !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.VPMenu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.dark .VPMenu::before           { background: rgba(13,13,13,0.75); }
+html:not(.dark) .VPMenu::before { background: rgba(255,255,255,0.75); }
+
+.dark .VPMenu           { border-color: rgba(255,255,255,0.08) !important; }
+html:not(.dark) .VPMenu { border-color: rgba(0,0,0,0.08) !important; }
