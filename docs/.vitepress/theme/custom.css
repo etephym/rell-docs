@@ -313,12 +313,6 @@ body:has(.VPHome) .rp-wrap { display: none !important; }
   bottom:    calc(80px + var(--mp-visual-bottom-gap, 0px));
   z-index:   999;
   max-width: calc(100vw - 48px);
-  animation: mp-fade-in 0.3s 0.1s both;
-}
-
-@keyframes mp-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Widget card ─────────────────────────────────────────────────────────── */

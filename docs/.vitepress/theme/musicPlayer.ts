@@ -186,10 +186,15 @@ export function setupMusicPlayer(): void {
     dragStart(e.clientX, e.clientY)
   })
 
-  // Store references so the same function instances can be removed on cleanup
-  const onMouseMove = (e: MouseEvent)  => dragMove(e.clientX, e.clientY)
-  const onMouseUp   = ()               => dragEnd()
-  const onTouchEnd  = ()               => dragEnd()
+  // Store named references — required for removeEventListener to match the original handler
+  const onMouseMove = (e: MouseEvent) => dragMove(e.clientX, e.clientY)
+  const onMouseUp   = ()              => dragEnd()
+  const onTouchMove = (e: TouchEvent) => {
+    if (!dragging) return
+    e.preventDefault() // prevent page scroll while dragging the widget
+    dragMove(e.touches[0].clientX, e.touches[0].clientY)
+  }
+  const onTouchEnd  = () => dragEnd()
 
   document.addEventListener('mousemove', onMouseMove)
   document.addEventListener('mouseup',   onMouseUp)
@@ -201,13 +206,8 @@ export function setupMusicPlayer(): void {
     dragStart(e.touches[0].clientX, e.touches[0].clientY)
   }, { passive: true })
 
-  document.addEventListener('touchmove', (e: TouchEvent) => {
-    if (!dragging) return
-    e.preventDefault() // prevent page scroll while dragging the widget
-    dragMove(e.touches[0].clientX, e.touches[0].clientY)
-  }, { passive: false })
-
-  document.addEventListener('touchend', onTouchEnd)
+  document.addEventListener('touchmove', onTouchMove, { passive: false })
+  document.addEventListener('touchend',  onTouchEnd)
 
   // ── Locale observer — updates labels when the user switches language ───────
 
@@ -226,6 +226,7 @@ export function setupMusicPlayer(): void {
     bodyObserver.disconnect()
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup',   onMouseUp)
+    document.removeEventListener('touchmove', onTouchMove)
     document.removeEventListener('touchend',  onTouchEnd)
   })
   bodyObserver.observe(document.body, { childList: true })
