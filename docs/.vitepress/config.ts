@@ -242,6 +242,11 @@ export default defineConfig({
     image: { lazyLoading: true },
   },
 
+  // Search must be at top-level themeConfig — VitePress ignores it inside locales
+  themeConfig: {
+    search: SEARCH,
+  },
+
   locales: {
     // Russian — root locale (no /ru/ prefix)
     root: {
@@ -289,7 +294,6 @@ export default defineConfig({
           pattern: 'https://github.com/etephym/shindo/edit/main/docs/:path',
           text:    'Редактировать на GitHub',
         },
-        search: SEARCH,
         footer: {
           message:   FOOTER_MESSAGE,
           copyright: 'Shindo Life Docs © 2024–2026',
