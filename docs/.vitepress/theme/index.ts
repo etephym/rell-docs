@@ -117,7 +117,7 @@ export default {
       // Below the document content: copyright notice
       'doc-after': () => h(Copyright),
       // Fixed overlay elements: scroll progress ring + rick-roll easter egg
-      'layout-bottom': () => [h(ProgressWrapper), h(RickRoll)],
+      'layout-bottom': () => h('div', null, [h(ProgressWrapper), h(RickRoll)]),
     })
   },
 
