@@ -65,13 +65,15 @@ function update(): void {
   lastScroll = scrollY
 
   // Calculate percentage, clamped to [0, 100]
-  if      (total <= 0)      progress.value = 0
-  else if (scrollY <= 0)    progress.value = 0
-  else if (scrollY >= total) progress.value = 100
-  else                       progress.value = Math.round((scrollY / total) * 100)
+  const pct = total <= 0 || scrollY <= 0
+    ? 0
+    : scrollY >= total ? 100 : Math.round((scrollY / total) * 100)
 
-  visible.value = scrollY > 100 // hide near the top of the page
-  idle.value    = false          // reset idle on any scroll
+  // Guard every reactive write — Vue triggers a re-render on each assignment,
+  // so writing the same value on every scroll pixel causes unnecessary work
+  if (pct !== progress.value)               progress.value = pct
+  if ((scrollY > 100) !== visible.value)    visible.value  = scrollY > 100
+  if (idle.value)                           idle.value     = false
 
   // Switch to arrow icon after 3 s of inactivity
   if (idleTimer) clearTimeout(idleTimer)
