@@ -98,6 +98,7 @@ interface ThemeParams {
   searchFooterSelectText:   string
   searchFooterNavigateText: string
   searchFooterCloseText:    string
+  notFound:                 DefaultTheme.NotFoundOptions
 }
 
 function createThemeConfig(p: ThemeParams): DefaultTheme.Config {
@@ -148,6 +149,7 @@ function createThemeConfig(p: ThemeParams): DefaultTheme.Config {
       copyright: 'Shindo Life Docs © 2024–2026',
     },
     socialLinks: SOCIAL_LINKS,
+    notFound:    p.notFound,
   }
 }
 
@@ -318,6 +320,13 @@ export default defineConfig({
         searchFooterSelectText:   'Выбрать',
         searchFooterNavigateText: 'Навигация',
         searchFooterCloseText:    'Закрыть',
+        notFound: {
+          title:     'Страница не найдена',
+          quote:     'Похоже, эта страница потерялась в тумане войны.',
+          linkLabel: 'На главную',
+          linkText:  '← Вернуться на главную',
+          code:      '404',
+        },
       }),
     },
 
@@ -363,6 +372,13 @@ export default defineConfig({
         searchFooterSelectText:   'Select',
         searchFooterNavigateText: 'Navigate',
         searchFooterCloseText:    'Close',
+        notFound: {
+          title:     'Page not found',
+          quote:     'Looks like this page got lost in the fog of war.',
+          linkLabel: 'Go to home',
+          linkText:  '← Back to home',
+          code:      '404',
+        },
       }),
     },
   },
