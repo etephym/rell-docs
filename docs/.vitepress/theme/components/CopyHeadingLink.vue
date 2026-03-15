@@ -3,7 +3,7 @@
 // Imports
 // ---------------------------------------------------------------------------
 
-import { onMounted, onUnmounted, watch, computed } from 'vue'
+import { onMounted, onUnmounted, watch, ref } from 'vue'
 import { useRoute } from 'vitepress'
 
 // ---------------------------------------------------------------------------
@@ -12,15 +12,22 @@ import { useRoute } from 'vitepress'
 
 const route = useRoute()
 
-/** Reactive locale flag — re-evaluates whenever the <html lang> attribute changes. */
-const isEn = computed(() => document.documentElement.lang === 'en-US')
+// Plain ref — updated explicitly on route change and on mount.
+// Cannot use computed(() => document.documentElement.lang) because computed
+// does not track DOM attributes — it would only run once and never update.
+const isEn = ref(false)
 
-/** Locale-specific labels for the copy button and its tooltip. */
-const labels = computed(() => ({
-  copy:   isEn.value ? 'Copy link'            : 'Скопировать ссылку',
-  aria:   isEn.value ? 'Copy link to heading' : 'Скопировать ссылку на заголовок',
-  copied: isEn.value ? 'Copied!'              : 'Скопировано!',
-}))
+function updateLocale(): void {
+  isEn.value = document.documentElement.lang === 'en-US'
+}
+
+// ---------------------------------------------------------------------------
+// Label helpers — called after updateLocale() so isEn.value is current
+// ---------------------------------------------------------------------------
+
+const labelCopy   = () => isEn.value ? 'Copy link'            : 'Скопировать ссылку'
+const labelAria   = () => isEn.value ? 'Copy link to heading' : 'Скопировать ссылку на заголовок'
+const labelCopied = () => isEn.value ? 'Copied!'              : 'Скопировано!'
 
 // ---------------------------------------------------------------------------
 // Handler registry — tracks buttons so they can be removed on cleanup
@@ -59,7 +66,10 @@ async function copyText(text: string): Promise<boolean> {
 function init(): void {
   cleanup()
 
-  const { copy, aria, copied } = labels.value
+  const copy   = labelCopy()
+  const aria   = labelAria()
+  const copied = labelCopied()
+
   // Build the base URL once so each button doesn't re-read location.*
   const base = window.location.origin + window.location.pathname.replace(/\/$/, '')
 
@@ -68,10 +78,10 @@ function init(): void {
     if (!id) return
 
     const btn = document.createElement('button')
-    btn.type             = 'button'
-    btn.className        = 'copy-heading-btn'
-    btn.title            = copy
-    btn.dataset.copied   = copied // used by the CSS ::after tooltip
+    btn.type           = 'button'
+    btn.className      = 'copy-heading-btn'
+    btn.title          = copy
+    btn.dataset.copied = copied // used by the CSS ::after tooltip
     btn.setAttribute('aria-label', aria)
     btn.innerHTML =
       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">` +
@@ -96,8 +106,9 @@ function init(): void {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
-onMounted(() => requestAnimationFrame(init))
-watch(() => route.path, () => requestAnimationFrame(init)) // re-inject on SPA navigation
+onMounted(() => { updateLocale(); requestAnimationFrame(init) })
+// On route change: update locale first, then re-inject buttons with correct labels
+watch(() => route.path, () => { updateLocale(); requestAnimationFrame(init) })
 onUnmounted(cleanup)
 </script>
 
