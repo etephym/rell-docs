@@ -176,7 +176,7 @@ function cancelHold(): void {
 const onMouseDown  = (e: MouseEvent) => { if (e.button === 0) startHold() }
 const onMouseUp    = () => cancelHold()
 const onMouseLeave = () => cancelHold()
-const onTouchStart = (e: TouchEvent) => { e.preventDefault(); startHold() }
+const onTouchStart = (e: TouchEvent) => { startHold() }
 const onTouchEnd   = () => cancelHold()
 
 // ---------------------------------------------------------------------------
@@ -195,7 +195,7 @@ function attach(): void {
       target.addEventListener('mousedown',   onMouseDown)
       target.addEventListener('mouseup',     onMouseUp)
       target.addEventListener('mouseleave',  onMouseLeave)
-      target.addEventListener('touchstart',  onTouchStart, { passive: false })
+      target.addEventListener('touchstart',  onTouchStart, { passive: true })
       target.addEventListener('touchend',    onTouchEnd)
       return
     }
