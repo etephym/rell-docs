@@ -10,11 +10,9 @@ import { useRoute } from 'vitepress'
 // Constants
 // ---------------------------------------------------------------------------
 
-const CLICKS_NEEDED = 7     // number of clicks required to trigger the redirect
-const RESET_DELAY   = 10000 // ms — click counter resets after this idle period
+const CLICKS_NEEDED = 7     // clicks on the hero image required to trigger
+const RESET_DELAY   = 10000 // ms — counter resets after this idle period
 const TARGET_URL    = 'https://youtu.be/dQw4w9WgXcQ?si=3-SKpSMGFYWdsQlA'
-const MAX_RETRIES   = 20    // retries while waiting for VPHero to render
-const RETRY_DELAY   = 50    // ms between retries
 
 // ---------------------------------------------------------------------------
 // Route
@@ -28,14 +26,21 @@ const route = useRoute()
 
 let count      = 0
 let resetTimer: ReturnType<typeof setTimeout> | null = null
-let retryTimer: ReturnType<typeof setTimeout> | null = null
-let target:    Element | null = null
+let active     = false // true only when on a home page
 
 // ---------------------------------------------------------------------------
-// Click handler
+// Document-level click handler (event delegation)
+//
+// Instead of querying a specific element (which may be hidden or not yet
+// rendered), we listen on document and check whether the click originated
+// inside .VPHero. This works regardless of DOM structure, theme, or timing.
 // ---------------------------------------------------------------------------
 
-function onClick(): void {
+function onDocumentClick(e: MouseEvent): void {
+  if (!active) return
+  // Only count clicks that land inside the hero section
+  if (!(e.target as Element).closest('.VPHero')) return
+
   count++
   if (resetTimer) clearTimeout(resetTimer)
   resetTimer = setTimeout(() => { count = 0 }, RESET_DELAY)
@@ -47,48 +52,35 @@ function onClick(): void {
 }
 
 // ---------------------------------------------------------------------------
-// Attach / detach
+// Activate / deactivate based on current route
 // ---------------------------------------------------------------------------
 
-/**
- * Attaches the click listener to .VPHero .image-container — the wrapper div
- * that holds both dark and light <img> variants. Using the container instead
- * of .image-src avoids the case where one of the images is display:none
- * (hidden by the light/dark CSS toggle) and therefore never receives clicks.
- */
-function tryAttach(retriesLeft: number): void {
-  const el = document.querySelector('.VPHero .image-container')
-  if (el) {
-    target = el
-    target.addEventListener('click', onClick)
-    ;(target as HTMLElement).style.cursor = 'pointer'
-    return
-  }
-  if (retriesLeft <= 0) return
-  retryTimer = setTimeout(() => tryAttach(retriesLeft - 1), RETRY_DELAY)
-}
-
-function attach(): void {
-  detach()
+function activate(): void {
   const isHome = route.path === '/' || route.path === '/en/'
-  if (!isHome) return
-  tryAttach(MAX_RETRIES)
-}
-
-function detach(): void {
-  if (retryTimer) { clearTimeout(retryTimer); retryTimer = null }
-  if (target)     { target.removeEventListener('click', onClick); target = null }
-  if (resetTimer) { clearTimeout(resetTimer); resetTimer = null }
-  count = 0
+  active       = isHome
+  if (!isHome) {
+    // Reset counter when leaving home so it starts fresh on return
+    count = 0
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null }
+  }
 }
 
 // ---------------------------------------------------------------------------
-// Lifecycle
+// Lifecycle — single document listener, always attached, activation toggled
 // ---------------------------------------------------------------------------
 
-onMounted(attach)
-watch(() => route.path, attach)
-onUnmounted(detach)
+onMounted(() => {
+  activate()
+  document.addEventListener('click', onDocumentClick)
+})
+
+watch(() => route.path, activate)
+
+onUnmounted(() => {
+  document.removeEventListener('click', onDocumentClick)
+  if (resetTimer) clearTimeout(resetTimer)
+})
 </script>
 
+<!-- Render nothing visible — behaviour only -->
 <template><span aria-hidden="true" /></template>
