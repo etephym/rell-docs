@@ -1,9 +1,10 @@
+import { AUDIO_SRC } from '../site.config'
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
-const POS_KEY   = 'mp-pos'
-const AUDIO_SRC = '/shindo/Zerofuturism - a coldcore ambient playlist.mp3'
+const POS_KEY = 'mp-pos'
 
 // ---------------------------------------------------------------------------
 // Types

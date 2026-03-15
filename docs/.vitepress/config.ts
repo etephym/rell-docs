@@ -1,21 +1,21 @@
 import { defineConfig, type DefaultTheme } from 'vitepress'
-
-// ---------------------------------------------------------------------------
-// Site-wide constants
-// ---------------------------------------------------------------------------
-
-const BASE_PATH = '/shindo/'
-const SITE_URL  = 'https://etephym.github.io'
-const FULL_URL  = `${SITE_URL}${BASE_PATH}`
+import {
+  BASE_PATH,
+  FULL_URL,
+  GITHUB_REPO_URL,
+  EDIT_LINK,
+  DISCORD_URL,
+  TELEGRAM_URL,
+} from './site.config'
 
 // ---------------------------------------------------------------------------
 // Social links shown in the navbar
 // ---------------------------------------------------------------------------
 
 const SOCIAL_LINKS: DefaultTheme.SocialLink[] = [
-  { icon: 'github',   link: 'https://github.com/etephym/shindo' },
-  { icon: 'discord',  link: 'https://discord.gg/cmCpgkb5zq' },
-  { icon: 'telegram', link: 'https://t.me/etephym' },
+  { icon: 'github',   link: GITHUB_REPO_URL },
+  { icon: 'discord',  link: DISCORD_URL },
+  { icon: 'telegram', link: TELEGRAM_URL },
 ]
 
 // ---------------------------------------------------------------------------
@@ -126,102 +126,38 @@ const SEARCH: DefaultTheme.Config['search'] = {
 
 const sidebarRu: DefaultTheme.Sidebar = [
   {
-    text: '📚 Страницы',
+    text: '⚔️ Shindo Life 2',
+    collapsed: false,
     items: [
-      { text: 'Гайд',           link: '/guide', badge: { type: 'tip',     text: 'Читать' } },
-      { text: 'Советы и фишки', link: '/tips',  badge: { type: 'warning', text: 'Важно'  } },
+      { text: 'Гайд',           link: '/shindo-life/guide', badge: { type: 'tip',     text: 'Читать' } },
+      { text: 'Советы и фишки', link: '/shindo-life/tips',  badge: { type: 'warning', text: 'Важно'  } },
     ],
   },
   {
-    text: '⚔️ Механики',
-    collapsed: true,
+    text: '🌊 Rell Seas',
+    collapsed: false,
     items: [
-      { text: 'Пассивки менторов', link: '/guide#mentor-passives' },
-      { text: 'Менторы',           link: '/guide#mentors', badge: { type: 'tip', text: 'Рекомендуем' } },
-      { text: 'Бонус репутации',   link: '/guide#rep-bonus-stats' },
-      { text: 'Механика Danger',   link: '/guide#danger' },
-      { text: 'Расы',              link: '/guide#races' },
-    ],
-  },
-  {
-    text: '💊 Предметы',
-    collapsed: true,
-    items: [
-      { text: 'Хилки',        link: '/guide#heals' },
-      { text: 'Throwables',   link: '/guide#throwable' },
-      { text: 'Оружие',       link: '/guide#weapons' },
-      { text: 'Companions',   link: '/guide#companion' },
-      { text: 'Боевые стили', link: '/guide#martials' },
-    ],
-  },
-  {
-    text: '🧪 Скиллы',
-    collapsed: true,
-    items: [
-      { text: 'Элементы',      link: '/guide#elements',      badge: { type: 'danger', text: 'S+' } },
-      { text: 'Kenjutsu',      link: '/guide#kenjutsu',      badge: { type: 'danger', text: 'S+' } },
-      { text: 'Sub Abilities', link: '/guide#sub-abilities' },
-      { text: 'Sub Modes',     link: '/guide#sub-modes' },
-    ],
-  },
-  {
-    text: '📋 Прочее',
-    collapsed: true,
-    items: [
-      { text: 'Термины',    link: '/guide#terms',       badge: { type: 'info',    text: 'Новичкам' } },
-      { text: 'Правила',    link: '/guide#shindo-rules' },
-      { text: 'Баг слотов', link: '/guide#slot-bug',    badge: { type: 'warning', text: 'Важно'   } },
+      { text: 'Гайд',           link: '/rell-seas/guide', badge: { type: 'tip',  text: 'Скоро' } },
+      { text: 'Советы и фишки', link: '/rell-seas/tips',  badge: { type: 'info', text: 'Скоро' } },
     ],
   },
 ]
 
 const sidebarEn: DefaultTheme.Sidebar = [
   {
-    text: '📚 Pages',
+    text: '⚔️ Shindo Life 2',
+    collapsed: false,
     items: [
-      { text: 'Guide',         link: '/en/guide', badge: { type: 'tip',     text: 'Read'      } },
-      { text: 'Tips & Tricks', link: '/en/tips',  badge: { type: 'warning', text: 'Important' } },
+      { text: 'Guide',         link: '/en/shindo-life/guide', badge: { type: 'info', text: 'Soon' } },
+      { text: 'Tips & Tricks', link: '/en/shindo-life/tips',  badge: { type: 'info', text: 'Soon' } },
     ],
   },
   {
-    text: '⚔️ Mechanics',
-    collapsed: true,
+    text: '🌊 Rell Seas',
+    collapsed: false,
     items: [
-      { text: 'Mentor Passives', link: '/en/guide#mentor-passives' },
-      { text: 'Mentors',         link: '/en/guide#mentors', badge: { type: 'tip', text: 'Must Read' } },
-      { text: 'Rep Bonus',       link: '/en/guide#rep-bonus-stats' },
-      { text: 'Danger',          link: '/en/guide#danger' },
-      { text: 'Races',           link: '/en/guide#races' },
-    ],
-  },
-  {
-    text: '💊 Items',
-    collapsed: true,
-    items: [
-      { text: 'Heals',     link: '/en/guide#heals' },
-      { text: 'Throwable', link: '/en/guide#throwable' },
-      { text: 'Weapons',   link: '/en/guide#weapons' },
-      { text: 'Companion', link: '/en/guide#companion' },
-      { text: 'Martials',  link: '/en/guide#martials' },
-    ],
-  },
-  {
-    text: '🧪 Skills',
-    collapsed: true,
-    items: [
-      { text: 'Elements',      link: '/en/guide#elements',      badge: { type: 'danger', text: 'S+' } },
-      { text: 'Kenjutsu',      link: '/en/guide#kenjutsu',      badge: { type: 'danger', text: 'S+' } },
-      { text: 'Sub Abilities', link: '/en/guide#sub-abilities' },
-      { text: 'Sub Modes',     link: '/en/guide#sub-modes' },
-    ],
-  },
-  {
-    text: '📋 Other',
-    collapsed: true,
-    items: [
-      { text: 'Terms',        link: '/en/guide#terms',       badge: { type: 'info',    text: 'Beginners' } },
-      { text: 'Shindo Rules', link: '/en/guide#shindo-rules' },
-      { text: 'Slot Bug',     link: '/en/guide#slot-bug',    badge: { type: 'warning', text: 'Important' } },
+      { text: 'Guide',         link: '/en/rell-seas/guide', badge: { type: 'info', text: 'Soon' } },
+      { text: 'Tips & Tricks', link: '/en/rell-seas/tips',  badge: { type: 'info', text: 'Soon' } },
     ],
   },
 ]
@@ -268,10 +204,17 @@ export default defineConfig({
         nav: [
           { text: '🏠 Главная', link: '/' },
           {
-            text: '📚 Контент',
+            text: '⚔️ Shindo Life 2',
             items: [
-              { text: '📖 Гайд',           link: '/guide' },
-              { text: '💡 Советы и фишки', link: '/tips'  },
+              { text: '📖 Гайд',           link: '/shindo-life/guide' },
+              { text: '💡 Советы и фишки', link: '/shindo-life/tips'  },
+            ],
+          },
+          {
+            text: '🌊 Rell Seas',
+            items: [
+              { text: '📖 Гайд',           link: '/rell-seas/guide' },
+              { text: '💡 Советы и фишки', link: '/rell-seas/tips'  },
             ],
           },
         ],
@@ -291,7 +234,7 @@ export default defineConfig({
           formatOptions: { dateStyle: 'long', timeStyle: 'short' },
         },
         editLink: {
-          pattern: 'https://github.com/etephym/shindo/edit/main/docs/:path',
+          pattern: EDIT_LINK,
           text:    'Редактировать на GitHub',
         },
         footer: {
@@ -322,6 +265,7 @@ export default defineConfig({
         ['meta', { property: 'og:locale',      content: 'en_US' }],
         ['meta', { property: 'og:title',       content: 'Shindo Life Docs' }],
         ['meta', { property: 'og:description', content: 'Guides, tier lists and mechanics for Shindo Life' }],
+        ['meta', { name: 'robots',             content: 'noindex' }],
       ],
       themeConfig: {
         logo:                DEFAULT_LOGO,
@@ -329,10 +273,17 @@ export default defineConfig({
         nav: [
           { text: '🏠 Home', link: '/en/' },
           {
-            text: '📚 Content',
+            text: '⚔️ Shindo Life 2',
             items: [
-              { text: '📖 Guide',         link: '/en/guide' },
-              { text: '💡 Tips & Tricks', link: '/en/tips'  },
+              { text: '📖 Guide',         link: '/en/shindo-life/guide' },
+              { text: '💡 Tips & Tricks', link: '/en/shindo-life/tips'  },
+            ],
+          },
+          {
+            text: '🌊 Rell Seas',
+            items: [
+              { text: '📖 Guide',         link: '/en/rell-seas/guide' },
+              { text: '💡 Tips & Tricks', link: '/en/rell-seas/tips'  },
             ],
           },
         ],
@@ -352,7 +303,7 @@ export default defineConfig({
           formatOptions: { dateStyle: 'long', timeStyle: 'short' },
         },
         editLink: {
-          pattern: 'https://github.com/etephym/shindo/edit/main/docs/:path',
+          pattern: EDIT_LINK,
           text:    'Edit this page on GitHub',
         },
         footer: {
